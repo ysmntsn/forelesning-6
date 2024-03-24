@@ -6,7 +6,55 @@
     <title>Document</title>
 </head>
 <body>
-    <script></script>
+    <h1 id="name-txt">Ditt navn er:Ukjent</h1>
+    <input type="button" id="add-btn" value="Legg til brukernavn!" />
+    <input type="button" id="delete-btn" value="Slett brukernavn" />
+    <script>
+        const nameTxt=document.querySelector("#name-txt");
+        const addBtn=document.querySelector("#add-btn");
+        const deleteBtn=document.querySelector("#delete-btn");
+  
+
+        console.log("hei hei");
+
+        addBtn.onclick=addName;
+        deleteBtn.onclick= deleteName;
+
+        
+        function addName(){
+         const userName= prompt("Hva heter du");
+         console.log(userName);
+         localStorage.setItem("name",userName);
+         console.log("Lengde på LocalStorage" ,localStorage.length);
+         
+         updateName();
+
+        }
+        
+        
+        
+        
+     function deleteName(){
+        localStorage.removeItem("name");
+
+        updateName();
+
+
+     }
+     function updateName(){
+        if(localStorage.length<=0){
+        nameTxt.innerHTML=`Ditt navn er:Ukjent .legg inn brukernavn}`
+     }else{
+        nameTxt.innerHTML=` Ditt navn er :${localStorage.getItem("name")}`;
+     }
+     }
+
+     updateName();
+
+
+
+      
+    </script>
     
 </body>
 </html>
