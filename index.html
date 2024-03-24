@@ -15,7 +15,7 @@
         const deleteBtn=document.querySelector("#delete-btn");
   
 
-        console.log("hei hei");
+      
 
         addBtn.onclick=addName;
         deleteBtn.onclick= deleteName;
@@ -23,7 +23,7 @@
         
         function addName(){
          const userName= prompt("Hva heter du");
-         console.log(userName);
+        
          localStorage.setItem("name",userName);
          console.log("Lengde på LocalStorage" ,localStorage.length);
          

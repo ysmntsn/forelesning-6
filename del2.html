@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="activity-container"></div>
+    <h3>Alle lagrede aktiviteter</h3>
+    <div id="saved-activities-container"></div>
+    <script>
+        const activityContainer=document.getElementById("activity-container");
+        const savedActivitiesContainer =document.getElementById("saved-activities-container");
+
+        let activities=[];
+
+
+
+        async function fetchActivity(){
+            const request= await fetch("http://www.boredapi.com/api/activity/");
+            const response= await request.json();
+
+           return response;
+
+        }
+      
+
+       async function fetchAndShowActivity(){
+            try{
+                const activity =await fetchActivity();
+                showActivity(activity);
+                showSavedActivities();
+            }catch{
+                console.log("Klarte ikke hente aktivitet....");
+            }
+        }
+        fetchAndShowActivity();
+
+        function showActivity(activity){
+            
+            const activityCard =document.createElement("div");
+            const text=document.createElement("h4");
+            text.innerHTML ="Aktivitet: " + activity.activity;
+
+            activityCard.style.backgroundColor="lightblue";
+            activityCard.style.width="200px";
+            activityCard.style.height="200px";
+            activityCard.style.border="1px solid black";
+
+            const saveBtn =document.createElement("button");
+            saveBtn.innerHTML="Lagre aktivitet";
+            saveBtn.addEventListener("click",function(){
+                saveActivity(activity);
+            });
+
+            activityCard.append(text,saveBtn);
+            activityContainer.append(activityCard);
+        }
+       
+        function saveActivity(activity){
+            activities = JSON.parse(localStorage.getItem("savedActivities"))  || [];
+            
+            activities.push(activity);
+
+            localStorage.setItem("savedActivities",JSON.stringify(activities));
+            
+            showSavedActivity();
+
+
+
+        }
+
+        function showSavedActivity(){
+            savedActivitiesContainer.innerHTML = ''; 
+            
+            console.log("Lagre aktivitet");
+            activities = JSON.parse(localStorage.getItem("savedActivities")) || [];
+
+            activities.forEach((activity,index)=> {
+            const savedActivityCard =document.createElement("div");
+            const savedText=document.createElement("h4");
+            savedText.innerHTML ="Aktivitet" + activity.activity;
+
+            savedActivityCard.style.backgroundColor="green";
+            savedActivityCard.style.width="200px";
+            savedActivityCard.style.height="200px";
+            savedActivityCard.style.border="1px solid black";
+
+            savedActivityCard.append(savedText);
+            savedActivitiesContainer.append(savedActivityCard);
+
+            });
+        }
+                
+        
+     
+    </script>
+</body>
+</html>
+
